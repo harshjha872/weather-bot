@@ -39,7 +39,7 @@ import {
 export default function Home() {
   type bot_users = {
     id: number;
-    created_at: string;
+    created_at: Date;
     username: string | null;
     chatId: number;
     first_name: string;
@@ -49,7 +49,7 @@ export default function Home() {
   const dummy_users: Array<bot_users> = [
     {
       id: 1,
-      created_at: new Date("2023-08-09").toISOString(),
+      created_at: new Date(),
       username: "harshjha872",
       chatId: 99999,
       first_name: "Harsh",
@@ -57,7 +57,7 @@ export default function Home() {
     },
     {
       id: 2,
-      created_at: new Date("2023-08-09").toISOString(),
+      created_at: new Date(),
       username: "satyamx64",
       chatId: 88888,
       first_name: "Satyam",
@@ -65,7 +65,7 @@ export default function Home() {
     },
     {
       id: 3,
-      created_at: new Date("2023-08-09").toISOString(),
+      created_at: new Date(),
       username: "devansh08",
       chatId: 77777,
       first_name: "Devansh",
@@ -73,7 +73,7 @@ export default function Home() {
     },
     {
       id: 4,
-      created_at: new Date("2023-08-09").toISOString(),
+      created_at: new Date(),
       username: "kanhaiya_tulsyan",
       chatId: 66666,
       first_name: "Kanhaiya",
@@ -81,7 +81,7 @@ export default function Home() {
     },
     {
       id: 5,
-      created_at: new Date("2023-08-09").toISOString(),
+      created_at: new Date(),
       username: null,
       chatId: 87878,
       first_name: 'Pradeep',
