@@ -23,6 +23,7 @@
     "lucide-react": "^0.344.0",
     "next": "14.1.2",
     "next-themes": "^0.2.1",
+    "node-telegram-bot-api": "^0.63.0",
     "prisma": "^5.11.0",
     "react": "^18",
     "react-dom": "^18",
@@ -31,6 +32,7 @@
   },
   "devDependencies": {
     "@types/node": "^20",
+    "@types/node-telegram-bot-api": "^0.64.4",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
