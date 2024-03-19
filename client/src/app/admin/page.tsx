@@ -36,6 +36,7 @@ import {
   Trash,
   UserRoundX,
   Divide,
+  UserRoundCog,
 } from "lucide-react";
 
 type bot_users = {
@@ -144,6 +145,10 @@ export default function Admins() {
               <DropdownMenuItem>
                 <UserRoundX className="mr-2 h-4 w-4" />
                 <span>Unsub</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <UserRoundCog className="mr-2 h-4 w-4" />
+                <span>Make admin</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem className="text-red-500 hover:text-white">
