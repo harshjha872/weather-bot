@@ -5,6 +5,8 @@ const bot = require("./telegramBot/bot");
 const utils = require("./util");
 const cron = require("cron");
 
+app.use(cors());
+
 const cronTest = new cron.CronJob("* * * * *", () => {
   console.log("cron just ran brrrrrrrrrrrrrr");
 });
@@ -34,8 +36,6 @@ bot.on("message", (msg) => {
     bot.sendMessage(chatId, "Please share your location.");
   }
 });
-
-app.use(cors());
 
 app.get("/", (req, res) => {
   res.json({ msg: "what's up bot!!!" });
