@@ -15,27 +15,27 @@ const cronTest = new cron.CronJob("* * * * *", () => {
 
 const PORT = 8080;
 
-bot.on("message", utils.sayHello);
+const reservedTexts = ["/start", "/subscribe", "/unsubscribe", "/checkstatus"];
 
-bot.on("location", (msg) => {
-  console.log(msg.location.latitude);
-  console.log(msg.location.longitude);
-});
-
-bot.on("message", (msg) => {
-  const chatId = msg.chat.id;
-
-  if (msg.location) {
-    const latitude = msg.location.latitude;
-    const longitude = msg.location.longitude;
-
-    // Now you have latitude and longitude, you can use it as needed
-    console.log(`Received location: (${latitude}, ${longitude})`);
-    bot.sendMessage(chatId, `Thanks for sharing your location!`);
-  } else {
-    bot.sendMessage(chatId, "Please share your location.");
+bot.on("message", async (msg) => {
+  if (!reservedTexts.includes(msg.text) && !msg.location) {
+    console.log(msg);
+    bot.sendMessage(
+      msg.chat.id,
+      `Hello ${msg.from.first_name}, use /start for more details about using this bot if you're not already subsribed`
+    );
   }
 });
+
+bot.onText(/\/start/, utils.sayHello);
+
+bot.onText(/\/subscribe/, utils.subscribeUser);
+
+bot.onText(/\/unsubscribe/, utils.unsubscribeUser);
+
+bot.onText(/\/checkstatus/, utils.checkstatus);
+
+bot.on("location", utils.onLocation);
 
 app.get("/", (req, res) => {
   res.json({ msg: "what's up bot!!!" });

@@ -20,4 +20,6 @@ model User {
   chatId     Int      @unique
   first_name String
   isSub      Boolean
+  latitude   Float
+  longitude  Float
 }
