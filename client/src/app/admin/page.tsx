@@ -14,7 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
+import axios from "axios";
 import {
   ArrowUpDown,
   ChevronDown,
@@ -35,6 +35,7 @@ import {
   Users,
   Trash,
   UserRoundX,
+  UserCheck,
   Divide,
   UserRoundCog,
 } from "lucide-react";
@@ -46,6 +47,8 @@ type bot_users = {
   chatId: number;
   first_name: string;
   isSub: boolean;
+  latitude: number;
+  longitude: number;
 };
 
 export default function Admins() {
@@ -53,11 +56,34 @@ export default function Admins() {
 
   useEffect(() => {
     (async () => {
-      const res = await fetch("/api/getallusers");
-      const allusers = await res.json();
-      setAllUsers(allusers.users);
+      const res = await axios.get("http://localhost:8080/getAllUsers");
+      const allusers = res.data;
+      setAllUsers(allusers);
     })();
   }, []);
+
+  const deleteUser = async (chatId: number) => {
+    const allusers1 = [...allusers];
+    const updatedUsersData = allusers.filter((user) => user.chatId !== chatId);
+
+    const res = await axios.post("http://localhost:8080/deleteUser", {
+      chatId: chatId,
+    });
+  };
+
+  const unsubUser = async (chatId: number) => {
+    const res = await axios.post("http://localhost:8080/unsubUser", {
+      chatId: chatId,
+    });
+    console.log(res);
+  };
+
+  const makeSub = async (chatId: number) => {
+    const res = await axios.post("http://localhost:8080/makeSub", {
+      chatId: chatId,
+    });
+    console.log(res);
+  };
 
   const dummy_users: Array<bot_users> = [
     {
@@ -67,6 +93,8 @@ export default function Admins() {
       chatId: 99999,
       first_name: "Harsh",
       isSub: false,
+      latitude: 1.9746,
+      longitude: 77.5929,
     },
     {
       id: 2,
@@ -75,30 +103,8 @@ export default function Admins() {
       chatId: 88888,
       first_name: "Satyam",
       isSub: false,
-    },
-    {
-      id: 3,
-      created_at: new Date(),
-      username: "devansh08",
-      chatId: 77777,
-      first_name: "Devansh",
-      isSub: false,
-    },
-    {
-      id: 4,
-      created_at: new Date(),
-      username: "kanhaiya_tulsyan",
-      chatId: 66666,
-      first_name: "Kanhaiya",
-      isSub: false,
-    },
-    {
-      id: 5,
-      created_at: new Date(),
-      username: null,
-      chatId: 87878,
-      first_name: "Pradeep",
-      isSub: false,
+      latitude: 1.9746,
+      longitude: 77.5929,
     },
   ];
 
@@ -128,6 +134,14 @@ export default function Admins() {
       header: "isSub",
     },
     {
+      accessorKey: "latitude",
+      header: "Latitude",
+    },
+    {
+      accessorKey: "longitude",
+      header: "Longitude",
+    },
+    {
       id: "actions",
       header: "Actions",
       enableHiding: false,
@@ -142,16 +156,30 @@ export default function Admins() {
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-40" align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem>
-                <UserRoundX className="mr-2 h-4 w-4" />
-                <span>Unsub</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
+              {row.original.isSub ? (
+                <DropdownMenuItem
+                  onClick={async () => await unsubUser(row.original.chatId)}
+                >
+                  <UserRoundX className="mr-2 h-4 w-4" />
+                  <span>Unsub</span>
+                </DropdownMenuItem>
+              ) : (
+                <DropdownMenuItem
+                  onClick={async () => await makeSub(row.original.chatId)}
+                >
+                  <UserCheck className="mr-2 h-4 w-4" />
+                  <span>Make sub</span>
+                </DropdownMenuItem>
+              )}
+              {/* <DropdownMenuItem>
                 <UserRoundCog className="mr-2 h-4 w-4" />
                 <span>Make admin</span>
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="text-red-500 hover:text-white">
+              <DropdownMenuItem
+                onClick={async () => await deleteUser(row.original.chatId)}
+                className="text-red-500 hover:text-white"
+              >
                 <Trash className="mr-2 h-4 w-4" />
                 <span>Remove</span>
               </DropdownMenuItem>
