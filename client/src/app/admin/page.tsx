@@ -15,6 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import axios from "axios";
+import { toast } from "sonner";
 import {
   ArrowUpDown,
   ChevronDown,
@@ -65,24 +66,52 @@ export default function Admins() {
   const deleteUser = async (chatId: number) => {
     const allusers1 = [...allusers];
     const updatedUsersData = allusers.filter((user) => user.chatId !== chatId);
+    setAllUsers(updatedUsersData);
 
     const res = await axios.post("http://localhost:8080/deleteUser", {
       chatId: chatId,
     });
+
+    if (res.data.msg !== "User deleted") {
+      setAllUsers(allusers1);
+    }
+    toast(res.data.msg);
   };
 
   const unsubUser = async (chatId: number) => {
+    const allusers1 = [...allusers];
+    const updatedUsersData = [...allusers];
+    updatedUsersData.forEach((user) => {
+      if (user.chatId === chatId) {
+        user.isSub = false;
+      }
+    });
+    setAllUsers(updatedUsersData);
     const res = await axios.post("http://localhost:8080/unsubUser", {
       chatId: chatId,
     });
-    console.log(res);
+    if (res.data.msg !== "User unsubscribed") {
+      setAllUsers(allusers1);
+    }
+    toast(res.data.msg);
   };
 
   const makeSub = async (chatId: number) => {
+    const allusers1 = [...allusers];
+    const updatedUsersData = [...allusers];
+    updatedUsersData.forEach((user) => {
+      if (user.chatId === chatId) {
+        user.isSub = true;
+      }
+    });
+    setAllUsers(updatedUsersData);
     const res = await axios.post("http://localhost:8080/makeSub", {
       chatId: chatId,
     });
-    console.log(res);
+    if (res.data.msg === "User subscribed") {
+      setAllUsers(allusers1);
+    }
+    toast(res.data.msg);
   };
 
   const dummy_users: Array<bot_users> = [
