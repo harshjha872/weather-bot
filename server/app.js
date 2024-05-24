@@ -41,6 +41,7 @@ const PORT = 8080;
 
 const crontest = new cron.CronJob("*/5 * * * *", async () => {
   const news = await fetchAINews();
+  console.log(prisma);
   const allusers = await prisma.subscribers.findMany();
   const receivers = allusers.map((user) => user.email).join(",");
 
