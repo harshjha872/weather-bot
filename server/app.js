@@ -39,7 +39,7 @@ const PORT = 8080;
 
 // bot.on("location", utils.onLocation);
 
-const crontest = new cron.CronJob("*/5 * * * *", async () => {
+const crontest = new cron.CronJob("0 11 * * *", async () => {
   const news = await fetchAINews();
   const allusers = await prisma.subscribers.findMany();
   const receivers = allusers.map((user) => user.email).join(",");
