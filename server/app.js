@@ -172,17 +172,7 @@ async function fetchAINews() {
   try {
     const parser = new Parser();
 
-    let feed = await parser.parseURL(
-      "https://www.artificialintelligence-news.com/feed/rss/"
-    );
-
-    feed = JSON.stringify(feed);
-    feed = feed
-      .replace(/[\n\r]/g, "\\n")
-      .replace(/&/g, "&amp;")
-      .replace(/-/g, "&#45;");
-
-    feed = JSON.parse(feed);
+    const feed = await parser.parseURL("https://news.crunchbase.com/feed");
 
     const aiNews = feed.items.map((item) => ({
       title: item.title,
