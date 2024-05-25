@@ -85,6 +85,11 @@ app.get("/getAllUsers", async (req, res) => {
   res.json(users);
 });
 
+app.get("/getnews", async (req, res) => {
+  const news = await fetchAINews();
+  res.json(news);
+});
+
 // app.post("/deleteUser", async (req, res) => {
 //   const { chatId } = req.body;
 //   try {
